@@ -17,7 +17,7 @@ jobs:
           dotnet-version: 6.0.x
 
       - name: Package
-        run: dotnet pack -c Release -o . CommonCommons/CommonCommons.csproj
+        run: dotnet pack -c Release -o . CommonCommons.csproj
 
       - name: Publish
         run: dotnet nuget push *.nupkg -k ${{ secrets.NUGET_KEY }} -s https://api.nuget.org/v3/index.json

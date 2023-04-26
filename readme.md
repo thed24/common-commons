@@ -3,7 +3,9 @@
 CommonCommons is a collection of C# classes, utilities, static methods, and similar common utilities that can be used across different projects. This project aims to simplify the development process and reduce the amount of redundant code that developers often encounter.
 
 ## Installation
-You can add CommonCommons to your project using NuGet Package Manager or by adding a reference to the CommonCommons.dll file.
+You can add CommonCommons to your project using NuGet Package Manager or by adding a reference to the CommonCommons.dll file. See it within the NuGet site with the link below:
+
+https://www.nuget.org/packages/CommonCommons/
 
 ## Usage
 To use CommonCommons, simply add the appropriate using statement to your code file:
