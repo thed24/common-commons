@@ -15,17 +15,9 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 6.0.x
-          
-      - name: Restore dependencies
-        run: dotnet restore
 
-      - name: publish on version change
-        id: publish_nuget
-        uses: brandedoutcast/publish-nuget@v2
-        with:
-          PROJECT_FILE_PATH: CommonCommons.csproj
-          BUILD_CONFIGURATION: Release
-          BUILD_PLATFORM: x64
-          TAG_COMMIT: true
-          NUGET_KEY: ${{secrets.NUGET_KEY}}
-          NUGET_SOURCE: https://api.nuget.org
+      - name: Package
+        run: dotnet pack -c Release -o . CommonCommons/CommonCommons.csproj
+
+      - name: Publish
+        run: dotnet nuget push *.nupkg -k ${{ secrets.NUGET_KEY }} -s https://api.nuget.org/v3/index.json
