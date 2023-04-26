@@ -1,0 +1,31 @@
+name: publish to nuget
+on:
+  push:
+    branches:
+      - main # Default release branch, may also be named 'master' or 'develop'
+
+jobs:
+  publish:
+    name: build, pack & publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0
+          
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: publish on version change
+        id: publish_nuget
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: CommonCommons.csproj
+          BUILD_CONFIGURATION: Release
+          BUILD_PLATFORM: x64
+          TAG_COMMIT: true
+          NUGET_KEY: ${{secrets.NUGET_KEY}}
+          NUGET_SOURCE: https://api.nuget.org
