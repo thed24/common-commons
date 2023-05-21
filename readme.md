@@ -8,26 +8,10 @@ You can add CommonCommons to your project using NuGet Package Manager or by addi
 https://www.nuget.org/packages/CommonCommons/
 
 ## Usage
-To use CommonCommons, simply add the appropriate using statement to your code file:
+To use CommonCommons, simply refer to any of the types or functions we expose, such as:
 
-### Result<TValue, TError>
-Using the MemberNotNullWhen attribute, we can allow for Nullability analysis of the IsSuccess property. This allows us to use the IsSuccess property in a null check without the compiler complaining about a possible null reference exception. 
-Furthermore, we expose static methods to create Results in correct states, and expose Map and Match functions to compose this type.
-
-```
-Result<int, SomeErrorEnumOrMaybeEvenSomeString> result = SomeMethodThatReturnsResult();
-
-if (result.IsSuccess)
-{
-    int value = result.Value;
-    // Do something with the value
-}
-else
-{
-    SomeErrorEnumOrMaybeEvenSomeString error = result.Error;
-    // Handle the error
-}
-```
+- The Result<TValue, TError> class, which is a Result style monad that uses null analysis attributes to maintain null safety and assist the C# compiler in knowing when the Value or Error fields are not null
+- The NullableExtensions static class, which are a series of extension methods that allow you to compose and use nullable types (T? or Nullable<T>) like a Maybe monad
 
 ## Contributing
 Contributions to CommonCommons are always welcome! If you have an idea for a new class or utility, or if you have found a bug, please create an issue or pull request on GitHub.
