@@ -2,7 +2,7 @@ name: publish to nuget
 on:
   push:
     branches:
-      - main # Default release branch, may also be named 'master' or 'develop'
+      - main
 
 jobs:
   publish:
@@ -15,6 +15,12 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 6.0.x
+
+      - name: Test
+        run: dotnet test -c Release --no-build --no-restore
+        
+      - name: Enter source directory
+        run: cd src
 
       - name: Package
         run: dotnet pack -c Release -o . CommonCommons.csproj

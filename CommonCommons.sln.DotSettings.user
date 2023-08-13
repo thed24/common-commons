@@ -1,0 +1,8 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d4b8cb98_002D6344_002D48d1_002Da491_002D3a593a31cf86/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ResultTypeOperatesOnNullPath" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::3195D5E4-EC70-4DCD-8683-2B6226200361::net7.0::CommonCommonsTest.Models.ResultTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::3195D5E4-EC70-4DCD-8683-2B6226200361::net7.0::CommonCommonsTest.Extensions.NullableExtensionsTests.NullableMapOperatesOnNullPath&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::3195D5E4-EC70-4DCD-8683-2B6226200361::net7.0::CommonCommonsTest.Extensions.NullableExtensionsTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
