@@ -1,5 +1,6 @@
 using CommonCommons.Extensions;
 using CommonCommons.Models;
+using CommonCommonsTest.Common;
 using FluentAssertions;
 using Xunit;
 
@@ -32,78 +33,143 @@ public class NullableExtensionsTests
         // assert
         result.Should().Be(2);
     }
-    
-    [Fact]
-    public void NullableMapOperatesOnReferenceTypes()
+
+    [Theory]
+    [InlineData(null, "No valid grade provided")]
+    [InlineData("LOL", "No valid grade provided")]
+    [InlineData("Z", "No valid grade provided")]
+    [InlineData("49", "You can't even provide a correct grade")]
+    [InlineData("B", "You are good")]
+    [InlineData("A", "You are great")]
+    public void NullableMapOperatesOnReferenceTypes(string grade, string expected)
     {
         // arrange
-        User? user = UserFromString("Mark", "A");
-            
+        User? user = User.From("Mark", grade);
+
         // act
         string result = user
-            .Map(ExtractGrade)
+            .Map<User, User>(currentUser => currentUser with { Name = "REDACTED"})
+            .Map<User, Grade?>(currentUser => currentUser.AverageGrade)
+            .Match<Grade, Result<string>>(
+                success: currentGrade => currentGrade.AsPhrase(),
+                failure: () => Result<string>.Failure("No valid grade provided"))
             .Match(
-                success: IsAverageGrade,
-                failure: HandleError)
-            .Match(
-                success: PrintGrade,
-                failure: PrintError);
-        
+                success: phrase => phrase,
+                failure: error => error);
+
         // assert
-        result.Should().Be("The grade is not average");
-
-        // local helper funcs for transforming data
-        static User? UserFromString(string name, string grade)
-        {
-            Grade? parsedGrade = Enum.TryParse(grade, out Grade maybeGrade) ? maybeGrade : null;
-            return parsedGrade is null ? null : new User(name, parsedGrade.Value);
-        }
-
-        static Result<bool, string> IsAverageGrade(int grade)
-        {
-            return Result<bool, string>.Success(grade is >= 60 and <= 80);
-        }
-
-        static Result<bool, string> HandleError(int _)
-        {
-            return Result<bool, string>.Failure("Could not parse users grade.");
-        }
-
-        static string PrintGrade(bool isAverage)
-        {
-            string modifier = isAverage ? "is" : "is not";
-            return $"The grade {modifier} average";
-        }
-
-        static string PrintError(string error)
-        {
-            return error;
-        }
-
-        static int ExtractGrade(User user)
-            {
-                return user.Grade switch
-                {
-                    Grade.F => 50,
-                    Grade.D => 60,
-                    Grade.C => 70,
-                    Grade.B => 80,
-                    Grade.A => 90,
-                    _ => 0
-                };
-            }
+        result.Should().Be(expected);
     }
     
-    #region Classes for testing
-    private record User(string Name, Grade Grade);
-
-    private enum Grade
+    [Fact]
+    public async Task NullableMapAsyncOperatesOnNullPath()
     {
-        F = 0,
-        D = 1,
-        C = 2,
-        B = 3,
-        A = 4
+        // arrange
+        int? value = null;
+
+        // act
+        int? result = await value.MapAsync(x => Task.FromResult(x + 1));
+
+        // assert
+        result.Should().BeNull();
     }
-    #endregion
+
+    [Fact]
+    public async Task NullableMapAsyncOperatesOnNonNullPath()
+    {
+        // arrange
+        int? value = 1;
+
+        // act
+        int? result = await value.MapAsync(x => Task.FromResult(x + 1));
+
+        // assert
+        result.Should().Be(2);
+    }
+
+    [Fact]
+    public async Task NullableMatchAsyncOperatesOnNullPath()
+    {
+        // arrange
+        int? value = null;
+
+        // act
+        int result = await value.MatchAsync(
+            success: x => Task.FromResult(x),
+            failure: () => Task.FromResult(-1));
+
+        // assert
+        result.Should().Be(-1);
+    }
+
+    [Fact]
+    public async Task NullableMatchAsyncOperatesOnNonNullPath()
+    {
+        // arrange
+        int? value = 42;
+
+        // act
+        int result = await value.MatchAsync(
+            success: x => Task.FromResult(x),
+            failure: () => Task.FromResult(-1));
+
+        // assert
+        result.Should().Be(42);
+    }
+    
+    [Theory]
+    [InlineData("123", 123)]
+    [InlineData("-123", -123)]
+    [InlineData("abc", null)]
+    [InlineData(null, null)]
+    public void TryParseToIntTests(string input, int? expected)
+    {
+        var result = input.TryParseToInt();
+        result.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData("123.45", 123.45)]
+    [InlineData("-123.45", -123.45)]
+    [InlineData("abc", null)]
+    [InlineData(null, null)]
+    public void TryParseToDoubleTests(string input, double? expected)
+    {
+        var result = input.TryParseToDouble();
+        result.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData("123.45", 123.45)]
+    [InlineData("-123.45", -123.45)]
+    [InlineData("abc", null)]
+    [InlineData(null, null)]
+    public void TryParseToDecimalTests(string input, double? expected)
+    {
+        var result = input.TryParseToDecimal();
+        result.Should().Be((decimal?)expected);
+    }
+
+    [Theory]
+    [InlineData("01/01/2020", "2020-01-01")]
+    [InlineData("31/12/2022", "2022-12-31")]
+    [InlineData("abc", null)]
+    [InlineData(null, null)]
+    public void TryParseToDateTimeTests(string input, string? expectedString)
+    {
+        var expected = string.IsNullOrEmpty(expectedString) ? (DateTime?)null : DateTime.Parse(expectedString);
+        var result = input.TryParseToDateTime();
+        result.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData("true", true)]
+    [InlineData("false", false)]
+    [InlineData("abc", null)]
+    [InlineData(null, null)]
+    public void TryParseToBoolTests(string input, bool? expected)
+    {
+        var result = input.TryParseToBool();
+        result.Should().Be(expected);
+    }
 }

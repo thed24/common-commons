@@ -23,14 +23,14 @@ public class Result<TValue, TError>
     public bool IsSuccess { get; }
     
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private Result(TError error)
+    protected Result(TError error)
     {
         Error = error;
         IsSuccess = false;
     }
     
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private Result(TValue value)
+    protected Result(TValue value)
     {
         Value = value;
         IsSuccess = true;
@@ -104,5 +104,32 @@ public class Result<TValue, TError>
         {
             await failure(Error);
         }
+    }
+}
+
+/// <summary>
+/// A simpler result type that can be in either a success or failure state.
+/// </summary>
+/// <typeparam name="TValue"> The type of the value if it is in the success state. </typeparam>
+public class Result<TValue> : Result<TValue, string>
+{
+    protected Result(string error) : base(error)
+    {
+    }
+
+    protected Result(TValue value) : base(value)
+    {
+    }
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public new static Result<TValue> Success(TValue value)
+    {
+        return new Result<TValue>(value);
+    }
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public new static Result<TValue> Failure(string error)
+    {
+        return new Result<TValue>(error);
     }
 }
