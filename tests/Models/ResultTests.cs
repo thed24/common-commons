@@ -8,7 +8,7 @@ namespace CommonCommonsTest.Models;
 public class ResultTests
 {
     [Fact]
-    public void ResultTypeOperatesOnNullPath()
+    public void GivenResult_WhenMappingOnNullPath_ReturnFallback()
     {
         // arrange
         Result<int, string> result = Result<int, string>.Failure("kernel went kablooey");
@@ -25,7 +25,7 @@ public class ResultTests
     }
     
     [Fact]
-    public void ResultTypeOperatesOnSuccessPath()
+    public void GivenResult_WhenMappingOnValuePath_ReturnValue()
     {
         // arrange
         Result<int, string> result = Result<int, string>.Success(42);
@@ -42,7 +42,7 @@ public class ResultTests
     }
     
     [Fact]
-    public async Task ResultTypeOperatesOnSuccessPathAsync()
+    public async Task GivenResult_WhenMappingOnNullPathAsync_ReturnFallback()
     {
         // arrange
         Result<int, string> result = Result<int, string>.Success(42);
@@ -59,7 +59,7 @@ public class ResultTests
     }
 
     [Fact]
-    public async Task ResultTypeOperatesOnNullPathAsync()
+    public async Task GivenResult_WhenMappingOnValuePathAsync_ReturnValue()
     {
         // arrange
         Result<int, string> result = Result<int, string>.Failure("kernel went kablooey");
@@ -76,7 +76,7 @@ public class ResultTests
     }
 
     [Fact]
-    public void DoOperatesOnSuccessPath()
+    public void GivenResult_WhenDoOnValuePath_DoAction()
     {
         // arrange
         Result<int, string> result = Result<int, string>.Success(42);
@@ -92,7 +92,7 @@ public class ResultTests
     }
 
     [Fact]
-    public void DoOperatesOnFailurePath()
+    public void GivenResult_WhenDoOnNullPath_DoFallback()
     {
         // arrange
         Result<int, string> result = Result<int, string>.Failure("kernel went kablooey");

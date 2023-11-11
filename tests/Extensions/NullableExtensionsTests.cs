@@ -9,7 +9,7 @@ namespace CommonCommonsTest.Extensions;
 public class NullableExtensionsTests
 {
     [Fact]
-    public void NullableMapOperatesOnNullPath()
+    public void GivenNullable_WhenMappingOnNullPath_ReturnNull()
     {
         // arrange
         int? value = null;
@@ -22,7 +22,7 @@ public class NullableExtensionsTests
     }
     
     [Fact]
-    public void NullableMapOperatesOnNonNullPath()
+    public void GivenNullable_WhenMappingOnValuePath_ReturnValue()
     {
         // arrange
         int? value = 1;
@@ -41,7 +41,7 @@ public class NullableExtensionsTests
     [InlineData("49", "You can't even provide a correct grade")]
     [InlineData("B", "You are good")]
     [InlineData("A", "You are great")]
-    public void NullableMapOperatesOnReferenceTypes(string grade, string expected)
+    public void GivenNullable_WhenMappingOnValuePathForReferenceType_ReturnValue(string grade, string expected)
     {
         // arrange
         User? user = User.From("Mark", grade);
@@ -62,7 +62,7 @@ public class NullableExtensionsTests
     }
     
     [Fact]
-    public async Task NullableMapAsyncOperatesOnNullPath()
+    public async Task GivenNullable_WhenMappingOnNullPathAsync_ReturnNull()
     {
         // arrange
         int? value = null;
@@ -75,7 +75,7 @@ public class NullableExtensionsTests
     }
 
     [Fact]
-    public async Task NullableMapAsyncOperatesOnNonNullPath()
+    public async Task GivenNullable_WhenMappingOnValuePathAsync_ReturnValue()
     {
         // arrange
         int? value = 1;
@@ -88,7 +88,7 @@ public class NullableExtensionsTests
     }
 
     [Fact]
-    public async Task NullableMatchAsyncOperatesOnNullPath()
+    public async Task GivenNullable_WhenMatchingOnNullPath_ReturnNull()
     {
         // arrange
         int? value = null;
@@ -103,7 +103,7 @@ public class NullableExtensionsTests
     }
 
     [Fact]
-    public async Task NullableMatchAsyncOperatesOnNonNullPath()
+    public async Task GivenNullable_WhenMatchingOnValuePath_ReturnValue()
     {
         // arrange
         int? value = 42;
@@ -122,7 +122,7 @@ public class NullableExtensionsTests
     [InlineData("-123", -123)]
     [InlineData("abc", null)]
     [InlineData(null, null)]
-    public void TryParseToIntTests(string input, int? expected)
+    public void GivenNullable_WhenParsingInt_ReturnValue(string input, int? expected)
     {
         var result = input.TryParseToInt();
         result.Should().Be(expected);
@@ -133,7 +133,7 @@ public class NullableExtensionsTests
     [InlineData("-123.45", -123.45)]
     [InlineData("abc", null)]
     [InlineData(null, null)]
-    public void TryParseToDoubleTests(string input, double? expected)
+    public void GivenNullable_WhenParsingDouble_ReturnValue(string input, double? expected)
     {
         var result = input.TryParseToDouble();
         result.Should().Be(expected);
@@ -144,7 +144,7 @@ public class NullableExtensionsTests
     [InlineData("-123.45", -123.45)]
     [InlineData("abc", null)]
     [InlineData(null, null)]
-    public void TryParseToDecimalTests(string input, double? expected)
+    public void GivenNullable_WhenParsingDecimal_ReturnValue(string input, double? expected)
     {
         var result = input.TryParseToDecimal();
         result.Should().Be((decimal?)expected);
@@ -155,7 +155,7 @@ public class NullableExtensionsTests
     [InlineData("31/12/2022", "2022-12-31")]
     [InlineData("abc", null)]
     [InlineData(null, null)]
-    public void TryParseToDateTimeTests(string input, string? expectedString)
+    public void GivenNullable_WhenParsingDateTime_ReturnValue(string input, string expectedString)
     {
         var expected = string.IsNullOrEmpty(expectedString) ? (DateTime?)null : DateTime.Parse(expectedString);
         var result = input.TryParseToDateTime();
@@ -167,7 +167,7 @@ public class NullableExtensionsTests
     [InlineData("false", false)]
     [InlineData("abc", null)]
     [InlineData(null, null)]
-    public void TryParseToBoolTests(string input, bool? expected)
+    public void GivenNullable_WhenParsingBool_ReturnValue(string input, bool? expected)
     {
         var result = input.TryParseToBool();
         result.Should().Be(expected);

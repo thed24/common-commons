@@ -23,7 +23,7 @@ public static class NullableExtensions
     }
     
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static TOutput Match<TInput, TOutput>(this TInput? value, Func<TInput?, TOutput> success, Func<TOutput> failure)
+    public static TOutput Match<TInput, TOutput>(this TInput? value, Func<TInput, TOutput> success, Func<TOutput> failure)
         where TInput : class
     {
         return value is null
@@ -32,7 +32,7 @@ public static class NullableExtensions
     }
     
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static TOutput Match<TInput, TOutput>(this TInput? value, Func<TInput?, TOutput> success, Func<TOutput> failure)
+    public static TOutput Match<TInput, TOutput>(this TInput? value, Func<TInput, TOutput> success, Func<TOutput> failure)
         where TInput : struct
     {
         return value.HasValue
@@ -41,10 +41,7 @@ public static class NullableExtensions
     }
     
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static async Task<TOutput> MatchAsync<TInput, TOutput>(
-        this TInput? value, 
-        Func<TInput, Task<TOutput>> success, 
-        Func<Task<TOutput>> failure)
+    public static async Task<TOutput> MatchAsync<TInput, TOutput>(this TInput? value, Func<TInput, Task<TOutput>> success, Func<Task<TOutput>> failure)
         where TInput : class
     {
         return value is null
@@ -65,11 +62,17 @@ public static class NullableExtensions
     }
     
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int? TryParseToInt(this string input) => int.TryParse(input, out int result) ? result : null;
-    
+    public static int? TryParseToInt(this string input)
+    {
+        return int.TryParse(input, out int result) ? result : null;
+    }
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static double? TryParseToDouble(this string input) => double.TryParse(input, out double result) ? result : null;
-    
+    public static double? TryParseToDouble(this string input)
+    {
+        return double.TryParse(input, out double result) ? result : null;
+    }
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static decimal? TryParseToDecimal(this string input)
     {
@@ -77,8 +80,14 @@ public static class NullableExtensions
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static DateTime? TryParseToDateTime(this string input) => DateTime.TryParse(input, out DateTime result) ? result : null;
-    
+    public static DateTime? TryParseToDateTime(this string input)
+    {
+        return DateTime.TryParse(input, out DateTime result) ? result : null;
+    }
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool? TryParseToBool(this string input) => bool.TryParse(input, out bool result) ? result : null;
+    public static bool? TryParseToBool(this string input)
+    {
+        return bool.TryParse(input, out bool result) ? result : null;
+    }
 }

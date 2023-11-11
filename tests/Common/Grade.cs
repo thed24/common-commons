@@ -13,7 +13,7 @@ public enum Grade
 
 public static class GradeExtensions
 {
-    public static Result<string> AsPhrase(this Grade? grade)
+    public static Result<string> AsPhrase(this Grade grade)
     {
         return grade switch
         {
