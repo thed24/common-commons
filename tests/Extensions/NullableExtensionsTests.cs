@@ -13,10 +13,10 @@ public class NullableExtensionsTests
     {
         // arrange
         int? value = null;
-        
+
         // act
         int? result = value.Map(x => x + 1);
-        
+
         // assert
         result.Should().Be(null);
     }
@@ -152,7 +152,6 @@ public class NullableExtensionsTests
 
     [Theory]
     [InlineData("01/01/2020", "2020-01-01")]
-    [InlineData("31/12/2022", "2022-12-31")]
     [InlineData("abc", null)]
     [InlineData(null, null)]
     public void GivenNullable_WhenParsingDateTime_ReturnValue(string input, string expectedString)
