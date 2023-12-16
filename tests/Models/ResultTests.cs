@@ -49,8 +49,8 @@ public class ResultTests
         
         // act
         string actual = await result
-            .MapAsync<string>(value => Task.FromResult("Woo, we got " + value + "!"))
-            .MatchAsync<string, string, string>(
+            .MapAsync(value => Task.FromResult("Woo, we got " + value + "!"))
+            .MatchAsync(
                 success: value => Task.FromResult(value),
                 failure: error => Task.FromResult("Boo, we got some error: " + error + "!"));
 
@@ -105,5 +105,40 @@ public class ResultTests
 
         // assert
         actual.Should().Be("Boo, we got some error: kernel went kablooey!");
+    }
+
+    [Fact]
+    public void GivenSimpleResult_WhenMappingOnNullPath_ReturnFallback()
+    {
+        // arrange
+        Result<int> result = Result<int>.Failure("kernel went kablooey");
+        
+        // act
+        int actual = result
+            .Map(value => value * 2)
+            .Match(
+                success: value => value,
+                failure: error => -1);
+
+        // assert
+        actual.Should().Be(-1);
+    }
+
+    
+    [Fact]
+    public void GivenSimpleResult_WhenMappingOnValuePath_ReturnValue()
+    {
+        // arrange
+        Result<int> result = Result<int>.Success(21);
+        
+        // act
+        int actual = result
+            .Map(value => value * 2)
+            .Match(
+                success: value => value,
+                failure: error => -1);
+
+        // assert
+        actual.Should().Be(42);
     }
 }
